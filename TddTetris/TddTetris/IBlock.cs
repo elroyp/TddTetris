@@ -12,5 +12,8 @@ namespace TddTetris
         void RotateRight();
 
         Color? ColorAt(Vector2 position);
+
+        //Returns a list of positions to form the shape of a block
+        List<Vector2> Shape(Vector2 position);
     }
 }

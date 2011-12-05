@@ -12,11 +12,14 @@ namespace TddTetris
     {
         private readonly IField field;
         private readonly IBlockFactory blockFactory;
+        private IBlock currentBlock;
 
         public GameMechanics(IField field, IBlockFactory blockFactory)
         {
             this.field = field;
             this.blockFactory = blockFactory;
+            this.currentBlock = blockFactory.MakeBlock();
+            field.SetBlock(currentBlock, new Vector2(0, 0));
         }
 
         public void HandleInput(List<Keys> input)
@@ -35,6 +38,15 @@ namespace TddTetris
             {
                 field.FixBlock();
             }
+            if (input.IndexOf(Keys.A) > -1)
+            {
+                currentBlock.RotateLeft();
+            }
+
+            if (input.IndexOf(Keys.D) > -1)
+            {
+                currentBlock.RotateRight();
+            }
         }
 
         public void AdvanceIfPossible()
@@ -46,7 +58,8 @@ namespace TddTetris
             else
             {
                 field.FixBlock();
-                field.SetBlock( blockFactory.MakeBlock(), new Vector2(field.Width / 2, 0) );
+                currentBlock = blockFactory.MakeBlock();
+                field.SetBlock( currentBlock, new Vector2(field.Width / 2, 0) );
             }
         }
 

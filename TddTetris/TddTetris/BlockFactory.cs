@@ -7,9 +7,18 @@ namespace TddTetris
 {
     public class BlockFactory : IBlockFactory
     {
+        Random r = new Random();
         public IBlock MakeBlock()
         {
-            return new Block();
+            int num = r.Next(2, 2);
+
+            switch (num)
+            {
+                case 2:
+                    return new LetterIBlock();
+                default:
+                    return new Block();
+            }
         }
     }
 }

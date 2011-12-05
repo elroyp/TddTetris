@@ -13,7 +13,8 @@ namespace TddTetris
 
         public IBlock Block { get; private set; }
         public Vector2 Position { get; private set; }
-
+        private List<Vector2> blockShape = new List<Vector2>();
+        private List<Vector2> fixedPositions = new List<Vector2>();
         public Field(int width, int height)
         {
             this.Width = width;
@@ -32,7 +33,24 @@ namespace TddTetris
 
             if (position == Position)
             {
-                return Color.White;
+                blockShape = Block.Shape(position);
+            }
+
+            foreach (Vector2 pos in blockShape)
+            {
+               if (position == pos)
+                {
+                    return Block.ColorAt(position);
+                } 
+            }
+
+
+            foreach (Vector2 fixPos in fixedPositions)
+            {
+                if (position == fixPos)
+                {
+                    return Color.White;
+                }
             }
 
             return null;
@@ -76,6 +94,7 @@ namespace TddTetris
 
         public void FixBlock()
         {
+            fixedPositions.Add(Position);
         }
     }
 }
